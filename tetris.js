@@ -232,6 +232,7 @@ function start() {
                 if (this.y + r < 0) {
                     if (!gameOver) {
                         alert("Game Over");
+                         music.pause();
                          window.location.reload()
                         // stop request animation frame
                         gameOver = true;
