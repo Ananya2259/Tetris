@@ -1,4 +1,3 @@
- window.location.reload()
 function hidelist2() {
     for (i = 0; i < 3; i++) {
         loader = document.getElementsByClassName("loader")[i]
