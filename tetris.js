@@ -1,3 +1,4 @@
+ window.location.reload()
 function hidelist2() {
     for (i = 0; i < 3; i++) {
         loader = document.getElementsByClassName("loader")[i]
@@ -232,8 +233,7 @@ function start() {
                 if (this.y + r < 0) {
                     if (!gameOver) {
                         alert("Game Over");
-                         window.location.reload()
-                         off()
+                        window.location.reload()
                         // stop request animation frame
                         gameOver = true;
                         break;
