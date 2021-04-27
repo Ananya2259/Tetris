@@ -91,7 +91,7 @@ function start() {
 
     //draw mini square
     //Same as draw square apart from the task that this is used for drawing square in the minicanvas.
-    function minidrawSquare(x, y, color) { //3 4
+    function minidrawSquare(x, y, color) {
         can.fillStyle = color;
         can.fillRect(x * SQ, y * SQ, SQ, SQ);
         can.strokeStyle = "BLACK";
@@ -118,7 +118,7 @@ function start() {
     const PIECES = [
         [Z, "red"],
         [S, "green"],
-        [T, "yellow"],
+        [T, "#ff0066"],
         [O, "blue"],
         [L, "purple"],
         [I, "cyan"],
@@ -232,8 +232,9 @@ function start() {
                 if (this.y + r < 0) {
                     if (!gameOver) {
                         alert("Game Over");
-                        window.location.reload()
+                         window.location.reload()
                         // stop request animation frame
+                        off();
                         gameOver = true;
                         break;
                     }
@@ -246,8 +247,10 @@ function start() {
         // remove full rows
         for (r = 0; r < ROW; r++) {
             let isRowFull = true;
-            for (c = 0; c < COL; c++) { //here we loop through each and every square of the gameboard.If we find a whole low full we will increase the score by 10 points.
+            let scolor = board[r][0]
+            for (c = 0; c < COL; c++) { //here we loop through each and every square of the gameboard.If we find a whole row full we will increase the score by 10 points.
                 isRowFull = isRowFull && (board[r][c] != VACANT);
+                issamecolor = isRowFull && board[r].every( (val, i, arr) => val === scolor )//if a whole row is full and all the squares are of same color we will give extra 10 points.
             }
             if (isRowFull) {
                 // if the row is full
@@ -263,6 +266,10 @@ function start() {
                 }
                 // increment the score
                 score += 10;
+                if(issamecolor)
+                {
+                    score += 10;
+                }
             }
         }
         // update the board
