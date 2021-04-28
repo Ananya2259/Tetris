@@ -73,11 +73,11 @@ function start() {
     const VACANT = "WHITE"; // color of an empty square
 
     // draw a square
-    function drawSquare(x, y, color) { //x and explains the position of the square in the gameboard(basically cordinates.)
-        ctx.fillStyle = color;
-        ctx.fillRect(x * SQ, y * SQ, SQ, SQ); //fills the square with the given color.
-        ctx.strokeStyle = "BLACK";
-        ctx.strokeRect(x * SQ, y * SQ, SQ, SQ); //Draws the border for the square.
+    function drawSquare(x, y, color,canvasobj) { //x and explains the position of the square in the gameboard(basically cordinates.)
+        canvasobj.fillStyle = color;
+        canvasobj.fillRect(x * SQ, y * SQ, SQ, SQ); //fills the square with the given color.
+        canvasobj.strokeStyle = "BLACK";
+        canvasobj.strokeRect(x * SQ, y * SQ, SQ, SQ); //Draws the border for the square.
     }
 
     // create the board
@@ -85,23 +85,14 @@ function start() {
     //In the drawboard function, with the help of map function we iterate through each element of the array and draw square by calling the draw square function.
     let board = Array(ROW).fill(null).map(() => Array(COL).fill(null).map(() => VACANT));
     let drawBoard = () => {
-        board.map((rowval, rindex) => rowval.map((colval, cindex) => drawSquare(cindex, rindex, colval)))
+        board.map((rowval, rindex) => rowval.map((colval, cindex) => drawSquare(cindex, rindex, colval,ctx)))
     };
     drawBoard();
-
-    //draw mini square
-    //Same as draw square apart from the task that this is used for drawing square in the minicanvas.
-    function minidrawSquare(x, y, color) {
-        can.fillStyle = color;
-        can.fillRect(x * SQ, y * SQ, SQ, SQ);
-        can.strokeStyle = "BLACK";
-        can.strokeRect(x * SQ, y * SQ, SQ, SQ);
-    }
 
     //draws mini board
     let miniboard = Array(MROW).fill(null).map(() => Array(MCOL).fill(null).map(() => VACANT));
     let minidrawBoard = () => {
-        miniboard.map((rowval, rindex) => rowval.map((colval, cindex) => minidrawSquare(cindex, rindex, colval)))
+        miniboard.map((rowval, rindex) => rowval.map((colval, cindex) =>drawSquare(cindex, rindex, colval,can)))
     };
     minidrawBoard();
 
@@ -109,7 +100,7 @@ function start() {
     minidraw = function (piece) {
         piece.activeTetromino.map((rowval, rindex) => rowval.map((colval, cindex) => {
             if (colval) {
-                minidrawSquare(rindex, cindex, piece.color);
+                drawSquare(rindex, cindex, piece.color,can);
             }
         }));
     }
@@ -155,7 +146,7 @@ function start() {
     Piece.prototype.fill = function (color) {
         this.activeTetromino.map((rowval, rindex) => rowval.map((colval, cindex) => {
             if (colval) {
-                drawSquare(this.x + cindex, this.y + rindex, color);
+                drawSquare(this.x + cindex, this.y + rindex, color,ctx);
             }
         }))
     };
@@ -334,7 +325,7 @@ function start() {
         }
     })
     let p = randomPiece();
-    let nextPiece = randomPiece()
+    let nextPiece = randomPiece();
     // drops a piece every 1sec
     let dropStart = performance.now(); //perforamnce.now is similar to date.now
     let gameOver = false;
